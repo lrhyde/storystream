@@ -60,7 +60,7 @@ def getParagraphs(username):
     for i in range(len(p)):
         p[i].replace("ï¿½", " - ")
         p[i].replace("�", " - ")
-        p[i].replace("\n\n", "\n")
+        #p[i].replace("\n\n", "\n")
         p[i].replace("\u00ef", " ")
         p[i].replace("\u00bf", "-")
         p[i].replace("\u00bd", " ")
@@ -133,7 +133,7 @@ def backParagraphs(username):
     for i in range(len(p)):
         p[i].replace("ï¿½", " - ")
         p[i].replace("�", " - ")
-        p[i].replace("\n\n", "\n")
+        #p[i].replace("\n\n", "\n")
         p[i].replace("\u00ef", " ")
         p[i].replace("\u00bf", "-")
         p[i].replace("\u00bd", " ")
@@ -181,7 +181,7 @@ def next():
 @app.route('/success', methods = ['POST'])  
 def success():  
     if request.method == 'POST': 
-        name = request.form.get("name")
+        name = request.form.get("name1")
         global username
         username = name 
         f = request.files['file']
@@ -210,7 +210,7 @@ def success():
     
 @app.route('/returner', methods=['POST'])
 def returner():
-    name = request.form.get("name")
+    name = request.form.get("name2")
     global username
     username=name
     p = getParagraphs(username)

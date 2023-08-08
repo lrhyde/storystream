@@ -3,38 +3,41 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Red, White, and Royal Blue</title>
+    <title>StoryStream</title>
     <link rel="stylesheet" href="../static/css/style2.css">
 </head>
 
 <body>
-    <div id="header">
-        <div id="name">
-            <h1>StoryStream</h1>
-            <p id="books">📕📙📒📗📘📔</p>
-            <p id="whatbook">Home Page</p>
+    <div id="wrapper">
+        <div id="header">
+            <div id="name">
+                <h1>StoryStream</h1>
+                <p id="books">📕📙📒📗📘📔</p>
+                <p id="whatbook">Home Page</p>
+            </div>
         </div>
     </div>
     <br>
-    <p>
+    <div id="formtext">
         Please upload a file to read:<br>
-    <form action="/success" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" /><br>
-        <label for="name">Add your name:</label>
-        <input type="text" width="80px" id="name" name="name" /><br>
-        <input type="submit" value="Upload">
-    </form>
-    OR
-    If you've been here before, select your name:<br><br>
-    <form action="/returner" method="post" enctype="multipart/form-data">
-        <select name="name">
-            {% for e in names %}
-            <option value="{{e}}">{{e}}</option>
-            {% endfor %}
-            </p>
-        </select>
-        <input type="submit" value="Upload">
-    </form>
+        <form action="/success" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" /><br>
+            <label for="name1">Add your name:</label>
+            <input type="text" width="80px" id="name1" name="name1" /><br>
+            <input type="submit" value="Upload"><br><br>
+        </form>
+        OR
+        If you've been here before, select your name:
+        <form action="/returner" method="post" enctype="multipart/form-data">
+            <select name="name2" id="name2">
+                {% for e in names %}
+                <option value="{{e}}">{{e}}</option>
+                {% endfor %}
+
+            </select>
+            <input type="submit" value="Upload">
+        </form>
+    </div>
 </body>
 
 </html>
