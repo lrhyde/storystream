@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Red, White, and Royal Blue</title>
+    <link rel="stylesheet" href="../static/css/style2.css">
+</head>
+
+<body>
+    <div id="header">
+        <div id="name">
+            <h1>StoryStream</h1>
+            <p id="books">📕📙📒📗📘📔</p>
+            <p id="whatbook">{{heading}}<span id="re">{{infile}}</span></p>
+        </div>
+    </div>
+    <br>
+    <div id="buttons">
+        <a id="button1" href="http://127.0.0.1:5000/back">Previous Page</a>
+        <div id="divider"></div>
+        <a id="button2" href="http://127.0.0.1:5000/next">Next Page</a>
+        <p id=par>Welcome {{user}}! Page Number: {{parnum}}/{{pn2}} ({{pct}} percent!)</p>
+    </div>
+    <p id="story">
+        {% for e in paragraphs %}
+        {{e}}<br>
+        {% endfor %}
+        <br>
+        <br>
+    </p>
+</body>
+<script lang="javascript">
+    var pps = 35;
+    var current_paragraph = 0;
+
+    function getParagraphs() {
+        fetch('/next')
+            .then(function (response) {
+                return response.json(); // But parse it as JSON this time
+            })
+            .then(function (json) {
+                console.log('GET response as JSON:');
+                console.log(json); // Here’s our JSON object
+                var ps = json['paragraphs'];
+                var chapter_names = ["ONE",
+                    "TWO",
+                    "THREE",
+                    "FOUR",
+                    "FIVE ",
+                    "SIX",
+                    "SEVEN",
+                    "EIGHT",
+                    "NINE",
+                    "TEN",
+                    "ELEVEN",
+                    "TWELVE",
+                    "THIRTEEN",
+                    "FOURTEEN",
+                    "FIFTEEN"]
+                document.getElementById("story").innerHTML = ""
+                for (var i = 0; i < ps.length; i++) {
+                    if (chapter_names.includes(ps[i].trim())) {
+                        document.getElementById("story").innerHTML += "<span id='chapter_title'>" + ps[i] + "</span><br>"
+                    }
+                    document.getElementById("story").innerHTML += ps[i] + "<br>"
+                    console.log(ps[i]);
+                }
+                current_paragraph += pps;
+                document.getElementById("cpg").innerHTML = current_paragraph;
+                //postWebsite();
+            })
+    }
+    function sendInfo() {
+        fetch('/next', {
+
+            // Declare what type of data we're sending
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            // Specify the method
+            method: 'POST',
+
+            // A JSON payload
+            body: JSON.stringify({
+                "pps": pps
+            })
+        }).then(function (response) { // At this point, Flask has printed our JSON
+            return response.text();
+        }).then(function (text) {
+
+            console.log('POST response: ');
+
+            // Should be 'OK' if everything was successful
+            console.log(text);
+            //getParagraphs();
+        });
+    }
+    function getParagraphs2() {
+        fetch('/next')
+            .then(function (response) {
+                return response
+            })
+    }
+    function backKey() {
+        fetch('/back', {
+
+            // Declare what type of data we're sending
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            // Specify the method
+            method: 'POST',
+
+            // A JSON payload
+            body: JSON.stringify({
+                "pps": pps
+            })
+        }).then(function (response) { // At this point, Flask has printed our JSON
+            return response.text();
+        }).then(function (text) {
+
+            console.log('POST response: ');
+
+            // Should be 'OK' if everything was successful
+            console.log(text);
+            //getParagraphs();
+        });
+    }
+    function postWebsite() {
+        current_paragraph = parseInt(document.getElementById("cpg").innerHTML);
+        fetch('/test')
+    }
+    function back() {
+        current_paragraph = parseInt(document.getElementById("cpg").innerHTML) - pps;
+        document.getElementById("cpg").innerHTML = current_paragraph;
+        sendInfo();
+    }
+
+</script>
+
+</html>
